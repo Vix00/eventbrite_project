@@ -1,11 +1,22 @@
 Rails.application.routes.draw do
 
-  root to: 'pages#home'
+  namespace :admin do
+    resources :users
+    resources :presence
+    resources :events
 
-  get '/welcome(/:first_name)', to: 'pages#welcome'
-  get '/gossips/:id', to: 'pages#gossips'
-  get '/team', to: 'pages#team'
-  get '/contacts', to: 'pages#contacts'
-  get '/home', to: 'pages#home'
+    root to: "users#index"
+  end
+
+  root to: "static_pages#index"
+  get 'static_pages/secret'
+  get "team", to: "static_pages#team"
+  get "contact", to: "static_pages#contact"
+  get "user", to: "static_pages#show"
+  devise_for :users
+  resources :events
+  resources :presence do
+    resources :charges
+  end
 
 end
